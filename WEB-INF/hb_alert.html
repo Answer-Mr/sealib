@@ -1,0 +1,34 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HB-alert效果页面</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-touch-fullscreen" content="YES">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/seajs/static/"></base>
+<style type="text/css">
+  *{padding: 0;margin: 0;}
+</style>
+</head>
+<body>
+
+<script type="text/javascript" src="hbweblib/global/0.2.0/js/global.js"></script>
+<script type="text/javascript">
+seajs.config({
+  base: '/seajs/static/',
+    alias: {
+      "alert" : "freemarker/alert/alert"
+    }
+});
+seajs.use("alert" ,function(alert){ 
+  alert.init();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable"><!-- 全屏显示 -->
+    <meta content="yes" name="apple-touch-fullscreen"><!-- 全屏显示 -->
+    <meta content="telephone=no,email=no" name="format-detection"><!-- 不启用电话，邮件 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"><!-- 以原始大小显示，并不允许缩放 -->
+    <meta name="format-detection" content="address=no" /><!-- 不启用地址 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" /><!-- 在web app应用下状态条（屏幕顶部条）的颜色为黑色 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" /><!-- 网站开启对web app程序的支持 -->
+    <meta name="mobile-web-app-capable" content="yes" /><!-- 删除默认的苹果工具栏和菜单栏 -->
+    <meta name="apple-touch-fullscreen" content="yes" /><!-- 添加到主屏幕“后，全屏显示 -->
+    <meta name="full-screen" content="yes" /><!-- 全屏显示 -->
+    <link rel="stylesheet" href="../css/common-h5.css"/>
+    <link rel="stylesheet" href="../css/otc_h5.css"/>
+    <title>资金划转</title>
+</head>
+<body>
+<div id="main" class="main-page">
+    <section class="page">
+        <div class="otc-index">
+            <ul class="tab-check">
+                <li><a href="">从银行转入</a></li>
+                <li class="on"><a href="">转出到银行</a></li>
+            </ul>
+            <div class="otc-bank-text">
+                <ul class="bank-a">
+                    <li>
+                        <span>所选银行：</span>
+                        <span><em>农业银行</em><i>尾号0088</i></span>
+                        <span><i class="icon-arrow-b"></i></span>
+                    </li>
+                    <li>
+                        <span>银行余额：</span>
+                        <span><a class="blue" href="#">点击查看</a></span>
+                        <span>元</span>
+                    </li>
+                    <li>
+                        <span>账户余额：<br/><em>（可用）</em></span>
+                        <span><a class="red" href="#">5000.00</a></span>
+                        <span>元</span>
+                    </li>
+                    <li>
+                        <span>转出金额：</span>
+                        <span class="form-item"><input class="form-inp" type="text" placeholder="请输入需要转入的金额"/></span>
+                        <span>元</span>
+                    </li>
+                    <li>
+                        <p>转账时间：交易日上午9点-下午4点</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="otc-form">
+                <form class="btn-one-a" action="">
+                    <div class="form-item">
+                        <a class="form-btn bg-red" href="">确认转出</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="bg-opt"></div>
+<div class="otc-tk-a">
+    <div class="tk-c">
+        <h1>请输入交易密码</h1>
+        <a class="close icon-cancle" href="otc05.html"></a>
+
+        <p>转出到银行<span class="red">50000.00元</span></p>
+
+        <div class="moni-inp-item">
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+        </div>
+    </div>
+</div>
+
+<!--以下为两种报错方式-->
+<!-- <div class="ts">
+    <span>请输入密码</span>
+</div> -->
+<div class="ts">
+    <p>出错了！<span>交易密码错误</span>请重新再输入一次</p>
+</div>
+</body>
+</html>

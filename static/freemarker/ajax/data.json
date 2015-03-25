@@ -1,0 +1,10 @@
+{
+	"resultCode": "000000",
+	"resultMsg": "success",
+	"data": [
+		{
+			"str":"数据提交成功",
+			"age":"26"
+		}
+	]
+}

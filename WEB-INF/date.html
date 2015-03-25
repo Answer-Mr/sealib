@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+	<title>seajs模块</title>
+	<meta charset="utf-8">
+	<base href="/seajs/static/"></base>
+	<link rel="stylesheet" type="text/css" href="arale/calendar/1.0.0/calendar.css">
+	<style type="text/css">
+		input{
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+
+	<!--单框-->
+	<p>单个日期框</p>
+	<input id="a-start-cal" type="text" class="icon-calendar" />
+	<!--双框选择-->
+	<p>两个日期框</p>
+	<input id="b-start-cal" type="text" class="icon-calendar"/>
+	<input id="b-end-cal" type="text" class="icon-calendar"/>
+	<script type="text/javascript" src="hbweblib/global/0.2.0/js/global.js"></script>
+	<script type="text/javascript">
+	seajs.config({
+		base: '/seajs/static/',
+	    alias: {
+	    	"index" : "freemarker/index/index",
+	    	"calendar":"arale/calendar/1.0.0/calendar"
+	    }
+	});
+	seajs.use("index",function(index){
+		index.init();
+	});
+	</script>
+</body>
+</html>

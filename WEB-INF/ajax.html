@@ -1,0 +1,247 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ajax加载</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-touch-fullscreen" content="YES">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/seajs/static/"></base>
+<link rel="stylesheet" type="text/css" href="freemarker/ajax/otc_h5.css">
+<style type="text/css">
+*{padding:0;margin:0;}
+.ui-dialog-box{
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  margin-top: -20px;
+  margin-left: -110px;
+  width: 220px;
+  min-height: 28px;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  text-align: center;
+  z-index: 999;
+}
+.ui-dialog-head{
+    position: relative;
+    line-height: 40px;
+    font-size: 18px;
+}
+.ui-dialog-head .close{
+    color: #fff;
+    position: absolute;
+    padding: 0 5px;
+    right: 0;
+    top: 0;
+    font-size: 22px;
+}
+.ui-dialog-body .ui-dialog-msg1{
+  line-height: 26px;
+  font-size: 14px;
+}
+.ui-dialog-body .ui-dialog-msg2{
+  line-height: 40px;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+<div id="datalist"></div>
+<button type="submit">提交</button>
+<script type="text/javascript" src="hbweblib/global/0.2.0/js/global.js"></script>
+<script type="text/javascript">
+;(function($) {  
+  $.extend({
+    "ajaxFn": function(options) {
+      var ops = $.extend({
+        type: "get",
+        url: "",
+        data: {},
+        dataType: 'json',
+        loadId: "",
+        error: function(e) {
+          alert("网络接口出错");
+          $(ops.loadId).html("加载失败，请稍后重试");
+        },
+        fail: function(e) {
+          alert("网络接口出错");
+          $(ops.loadId).html("加载失败，请稍后重试");
+        },
+        layoutStr: '<div id="hb-layout" class="ui-layout"><div class="ui-loadingBody"><div class="ui-loadingBox"></div><p>加载中</p></div></div>',
+        closeLayout: function() {
+          $("#hb-layout").remove();
+          return this;
+        },
+        showLayout: function() {
+          $("body").append(this.layoutStr);
+          return this;
+        }
+      }, options);
+      ops.closeLayout().showLayout();
+      $.ajax({
+        type: ops.type,
+        url: ops.url,
+        data: ops.data,
+        dataType: ops.dataType,
+        success: function(res) {
+          ops.closeLayout.call(this);
+          typeof ops.success !== "undefined" && ops.success.call(this, res);
+        },
+        error: function(e) {
+          ops.closeLayout.call(this);
+          typeof ops.error !== "undefined" && ops.error.call(this, e);
+        },
+        fail: function(e) {
+          ops.closeLayout.call(this);
+          typeof ops.fail !== "undefined" && ops.fail.call(this, e);
+        }
+      });
+      return this;
+    },
+    /*
+    $.alert("请输入密码")//自动在2秒后消失
+    $.alert({"msg":"请输入密码","time":"4000"})//自动在4秒后消失
+    */
+    "alert": function(options) {
+      if (typeof options !== "object") {
+        options = {
+          "msg": options
+        };
+      }
+      var ops = $.extend({
+        "title":"出错了！",
+        "msg": "请填写提示信息",
+        "msg2":"请重新输入密码",
+        "type": 0 ,//默认为0 直接alert一句文本提示;type: 1显示多条信息 title msg msg2 
+        "time": "3000",
+        "top": "25%",
+        "modal": false, //默认不需要遮罩效果
+        "layoutStr": '<div id="hb-layout" class="ui-layout"></div>',
+        "layoutStrNone": '<div id="hb-layout"></div>',
+        closeLayout: function() {
+          $("#hb-layout").remove();
+          return this;
+        },
+        showLayout: function() {
+          var T = this,
+            lay = T.modal ? $(T.layoutStr) : $(T.layoutStrNone);
+          if( T.type == 0 ){
+            var innerStr = '<div style="position: absolute;left: 50%;top: ' + T.top + ';margin-left: -110px;width: 220px;min-height: 28px;color: white;background: rgba(0, 0, 0, 0.6);text-align: center;z-index: 999;"><span style="font-size: 1.4rem;line-height: 300%;display: block;">' + T.msg + '</span></div>';
+            ops.closeLayout.call(T);
+            $("body").append(lay.html(innerStr));
+            setTimeout(function() {
+              ops.closeLayout.call(T);
+            }, T.time);
+          }else{
+            var innerStr = '<div class="ui-dialog-box"><div class="ui-dialog-head">'+T.title+'<a class="close icon-cancle" id="ui-dialog-closeBtn"></a></div><div class="ui-dialog-body"><p class="ui-dialog-msg1">'+T.msg+'</p><p class="ui-dialog-msg2">'+T.msg2+'</p></div></div>';
+            ops.closeLayout.call(T);
+            $("body").append($(T.layoutStr).html(innerStr));
+            $("#ui-dialog-closeBtn").one('click',function(){
+              ops.closeLayout.call(T);
+            })
+          }
+        }
+      }, options);
+      ops.closeLayout().showLayout();
+    },
+        /*show 密码框
+    $.showPwd({
+     "amount":"5000",//金额
+     "callback":function(val){console.log(val)}//回调函数
+    })
+    */
+    "showPwd": function(option){
+      var ops = $.extend({
+        "amount":"0",
+        "showPwdLay": function(){
+          var T = this,
+            _html = '<div id="ui-layoutPwd-id" class="ui-layout"><div class="otc-tk-a"><div class="tk-c"><h1>请输入交易密码</h1><a class="close icon-cancle"href="otc05.html"></a><p>转出到银行<span class="red">'+parseFloat(T.amount).toFixed(2)+'元</span></p><div class="moni-inp-item"><input type="password" maxlength="6"style="width: 234px;height: 32px;text-align: center;"></div></div></div></div>';
+          $("body").append(_html);
+          var $input = $("#ui-layoutPwd-id input[type=password]");
+          $input.on('input',function(){
+            var $inputVal = $input.val() ,val = '';
+            for(var i=0;i<$inputVal.length;i++){
+              var v= $inputVal[i];
+              if(v >= '0' && v<= '9'){
+                val=val+v;
+              }
+            }
+            $input.val(val);
+            if(val.length==6){
+               // $("#ui-layoutPwd-id").focus();
+              T.closePwdLay();
+              typeof T.callback !== "undefined" && T.callback.call(this, val);
+            }
+          });
+        },
+        "closePwdLay": function(){
+          $("#ui-layoutPwd-id").remove();
+          return this;
+        }
+      },option);
+      ops.closePwdLay().showPwdLay();
+    }
+  });
+var HBFN = {
+      "initAllFn" : function(){
+        this.checkboxInit();
+      },
+      "checkboxInit": function(){
+        var T = $("form .form-check b") ,Tval = parseInt(T.attr("value"));
+          if( Tval ){
+              T.addClass("icon-right");
+          }else{
+              T.removeClass("icon-right");
+          }
+          T.click(function(){
+              parseInt(T.attr("value"))?function(){
+                  T.attr("value",0).removeClass("icon-right");
+              }():function(){
+                  T.attr("value",1).addClass("icon-right");
+              }();
+          })
+      }
+    }
+    HBFN.initAllFn();
+})(jQuery);
+</script>
+<script type="text/javascript">
+ 
+  $("button").click(function(){
+    $.ajaxFn({
+      type:"get",
+      loadId: "#datalist",
+      success: function(res){
+        $("#datalist").html(res.data[0].str)
+      }
+    })
+  })
+</script>
+<script type="text/javascript">
+  // seajs.config({
+//   base: 'http://localhost:8090/seajs/static/',
+//     alias: {
+//       "ajax" : "freemarker/ajax/ajax"
+//     }
+// });
+// seajs.use("ajax" ,function(ajax){ 
+//   $("button").click(function(){
+//     $.ajaxFn({
+//       type:"get",
+//       url: "/testapi/data.json",
+//       loadId: "#datalist",
+//       success: function(res){
+//         $("#datalist").html(res.data[0].str)
+//       }
+//     })
+//   })
+// });
+</script>
+</body>
+</html>
